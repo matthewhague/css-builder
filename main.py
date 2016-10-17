@@ -1,7 +1,7 @@
 """Provides a command line interface to build abstractions of CSS files.
    Can output a complete representation of a file, or test intersection of individual selector pairs.
    If a file is provided, the abstraction is output.
-   If no file is provided, selectors are read from STDIN in pairs, and E output if the intersection is empty (else N).
+   If no file is provided, selectors are read from STDIN in pairs, and E output if the intersection is empty (else N).  In this mode send "." to flush the buffers.
 
 Usage:
   main.py [-p] [<file>]
@@ -29,6 +29,9 @@ def emptiness_mode():
             sel1 = sys.stdin.readline()
             if sel1 == "":
                 break
+            if sel1.strip() == ".":
+                sys.stdout.flush()
+                continue
             sel2 = sys.stdin.readline()
             if sel2 == "":
                 break
