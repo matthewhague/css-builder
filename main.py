@@ -4,18 +4,20 @@
    If no file is provided, selectors are read from STDIN in pairs, and E output if the intersection is empty (else N).  In this mode send "." to flush the buffers.
 
 Usage:
-  main.py [-p] [<file>]
+  main.py [-ps] [<file>]
   main.py (-h | --help)
   main.py --version
 
 Options:
   -p --multi-props          Combines multiply defined properties into a single value (e.g. { background: red; background: white } becomes { background: red;white }
+  -s --stats                Output stats about simpleCSS construction
   --version                 Show the version.
 """
 
 import sys
 
 from docopt import docopt, DocoptExit
+from timeit import default_timer
 
 import simplecssbuilder
 import cssfile
@@ -42,11 +44,24 @@ def emptiness_mode():
         except EOFError:
             break
 
-def build_mode():
+def build_mode(output_stats):
     """Reads a file and outputs simpleCSS Model"""
+
+    start_time = default_timer()
     css = cssfile.fromfile(arguments['<file>'],
                            arguments['--multi-props'])
-    print str(css)
+    mid_time = default_timer()
+
+    simple_css = simplecssbuilder.fromcssfile(css)
+
+    end_time = default_timer()
+
+    if output_stats:
+        print "CSS read in", (mid_time - start_time), "s."
+        print "Simple CSS built in", (end_time - mid_time), "s."
+        print "Number of dependencies is", len(simple_css.getEdgeSet())
+    else:
+        print str(css)
 
 
 if __name__ == "__main__":
@@ -57,4 +72,5 @@ if __name__ == "__main__":
     if arguments['<file>'] is None:
         emptiness_mode()
     else:
-        build_mode()
+        output_stats = arguments['--stats'] is not None
+        build_mode(output_stats)
