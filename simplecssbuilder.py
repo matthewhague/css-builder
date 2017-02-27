@@ -2,7 +2,6 @@
 purposes"""
 
 from itertools import combinations
-from timeit import default_timer
 
 import cssfile
 from cssfile import CSSFile
