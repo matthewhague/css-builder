@@ -62,7 +62,7 @@ def build_mode(output_stats):
         print "Simple CSS built in", (end_time - mid_time), "s."
         print "Number of dependencies is", len(simple_css.getEdgeSet())
     else:
-        print str(css)
+        print str(simple_css)
 
 
 if __name__ == "__main__":
@@ -73,5 +73,5 @@ if __name__ == "__main__":
     if arguments['<file>'] is None:
         emptiness_mode()
     else:
-        output_stats = arguments['--stats'] is not None
+        output_stats = arguments['--stats']
         build_mode(output_stats)
