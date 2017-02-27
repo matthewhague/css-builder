@@ -434,7 +434,8 @@ def __build_aut_from_selector(aut, selector, qin, qout, combinator):
         aut.add_tran(Tran(qstart, Arrow.child, node_selector, qout))
         qloop = aut._new_state()
         aut.add_tran(Tran(qstart, Arrow.child, node_selector, qloop))
-        aut.add_tran(Tran(qloop, Arrow.sibling, _isany, qout))
+        aut.add_tran(Tran(qloop, Arrow.sibling, _isany, qloop))
+        aut.add_tran(Tran(qloop, Arrow.neighbour, _isany, qout))
     elif combinator == Combinator.descendant:
         aut.add_tran(Tran(qstart, Arrow.child, node_selector, qout))
         qloop = aut._new_state()

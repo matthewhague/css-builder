@@ -35,6 +35,7 @@ def emptiness_mode():
             sel2 = sys.stdin.readline()
             if sel2 == "":
                 break
+
             if simplecssbuilder.selectors_overlap_str(sel1, sel2):
                 sys.stdout.write("N")
             else:
@@ -46,7 +47,7 @@ def build_mode():
     """Reads a file and outputs simpleCSS Model"""
     css = cssfile.fromfile(arguments['<file>'],
                            arguments['--multi-props'])
-    print str(css)
+    print str(simplecssbuilder.fromcssfile(css))
 
 
 if __name__ == "__main__":

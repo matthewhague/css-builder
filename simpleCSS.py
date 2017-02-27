@@ -112,6 +112,9 @@ class rule(object):
     def __repr__(self):
         return "Id: " + repr(id(self)) + "\n" + str(self)
 
+    def __str__(self):
+        return str(self.__selectors__) + ' { ' + str(self.__properties__) + ' } '
+
     def __hash__(self):
         return sum([ hash(sel) for sel in self.__selectors__ ]) + \
             sum([ hash(prop) for prop in self.__properties__ ])
